@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Errand Agent</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">◆</span>
+      <div>
+        <h1>Errand Agent</h1>
+        <p class="sub">Home-service bookings · approval-gated · traced</p>
+      </div>
+    </div>
+    <div class="controls">
+      <span class="chip" id="phase-chip" title="Workflow phase">phase: <b id="phase">–</b></span>
+      <span class="chip" id="guard-chip" title="Review guard">guard: <b id="guard">–</b></span>
+      <label class="chip select">scenario
+        <select id="scenario"></select>
+      </label>
+      <button id="restart" class="btn" title="Rebuild the agent on the same saved state, like a process restart">Restart agent</button>
+      <button id="reset" class="btn danger" title="Wipe bookings, memory and sessions, then start fresh with the selected scenario">New world</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel chat">
+      <div class="panel-head">
+        <h2>Chat</h2>
+        <span class="muted" id="user-label"></span>
+      </div>
+      <div id="messages" class="messages" aria-live="polite"></div>
+      <div class="suggestions" id="suggestions"></div>
+      <form id="composer" class="composer">
+        <input id="input" autocomplete="off" placeholder="Ask to book, move or cancel a home service…">
+        <button class="btn primary" id="send" type="submit">Send</button>
+      </form>
+    </section>
+
+    <section class="panel side">
+      <div class="panel-head tabs" role="tablist">
+        <button class="tab active" data-tab="trace" role="tab">Trace <span class="count" id="trace-count">0</span></button>
+        <button class="tab" data-tab="bookings" role="tab">Provider bookings</button>
+        <button class="tab" data-tab="memory" role="tab">Memory</button>
+        <span class="spacer"></span>
+        <label class="toggle" id="filter-wrap"><input type="checkbox" id="compact" checked> key events only</label>
+      </div>
+      <div class="trace-file muted" id="trace-file"></div>
+      <div id="tab-trace" class="tab-body trace"></div>
+      <div id="tab-bookings" class="tab-body hidden"></div>
+      <div id="tab-memory" class="tab-body hidden"></div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

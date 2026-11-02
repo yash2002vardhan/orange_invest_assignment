@@ -1,0 +1,16 @@
+flowchart TD
+  U([User message]) --> Y{{"Plain yes / no while<br/>a proposal is pending?"}}
+  Y -- "yes" --> G["Grant approval<br/>(compare-and-swap)"]
+  Y -- "anything else" --> R{{"Router"}}
+  R -- "short reply" --> C["gpt-5-mini"]
+  R -- "complex" --> S["gpt-5"]
+  C --> I["Typed Interpretation<br/>(no approval field)"]
+  S --> I
+  I --> SM["State machine<br/>(saved in SQLite)"]
+  SM -- "search, hold, list" --> GW["Tool gateway"]
+  G --> GW
+  GW -- "book / cancel / reschedule<br/>only if the stored approval matches" --> API[("Mock provider API")]
+  API -- "reviews (untrusted)" --> J["Jev + pattern guard"]
+  J -- "shown or withheld" --> OUT([User only, never the model])
+  SM -.-> T[["JSONL trace"]]
+  GW -.-> T
